@@ -1,0 +1,13 @@
+{
+  "description": "A WePY project",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "wxaf3f1b68a9f8d7b0",
+  "projectname": "haq",
+  "miniprogramRoot": "./dist"
+}
