@@ -1,0 +1,28 @@
+<template>
+    <view>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Img extends wepy.page {
+  config = {
+    navigationBarTitleText: '七海', // 页面首页的标题
+    usingComponents: {
+    //   'van-button': '/lib/button/index'
+    }
+  };
+}
+</script>
+
+<style lang='less'>
+</style>
+
+

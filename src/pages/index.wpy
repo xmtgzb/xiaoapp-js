@@ -1,0 +1,35 @@
+<style lang="less">
+</style>
+<template>
+  <view>
+    <!-- <van-button type="default">默认按钮</van-button>
+  <van-button type="default">默认按钮</van-button>
+  <van-button type="default">默认按钮</van-button>
+  <van-button type="default">默认按钮</van-button>
+  <van-button type="default">默认按钮</van-button>
+    <van-button type="default">默认按钮</van-button>-->
+     <img1></img1>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import img1 from '../pages/img1'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '七海', // 页面首页的标题
+    usingComponents: {
+      'van-button': '/lib/button/index'
+    }
+  };
+
+  components = {
+    img1: img1,
+
+  };
+  onLoad() {
+    console.log('onLoad');
+  }
+}
+</script>
