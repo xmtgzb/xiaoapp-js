@@ -1,0 +1,175 @@
+<style lang="less">
+page {
+  width: 100%;
+  height: 100%;
+  background-image: url('http://www.hanq0904.com/img/3.jpg');
+  background-size: 130%;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.admin {
+  width: 90%;
+  height: 85%;
+  margin: 30px auto;
+  position: relative;
+}
+.adminbgc {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  opacity: 0.3;
+  border-radius: 5%;
+}
+.zhuti {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.name {
+  width: 100%;
+  height: 100px;
+  background-color: yellow;
+  margin-top: 30px;
+  text-align: center;
+  overflow: hidden;
+}
+.shouquanbut {
+  margin: 0 auto;
+
+  .van-button--normal {
+    width: 100px;
+    border-radius: 15px;
+    margin-top: 35px;
+  }
+}
+</style>
+<template>
+  <view class="admin">
+    <view class="adminbgc"></view>
+    <view class="zhuti">
+      <!-- 头像以及名称 -->
+      <view class="name">
+        <!-- 登录按钮 -->
+        <van-button
+          wx:if="{{has &&canIUse}}"
+          class="shouquanbut"
+          open-type="getUserInfo"
+          bindgetuserinfo="bindGetUserInfo"
+          type="primary"
+        >登录</van-button>
+
+        <!-- 头像 -->
+        <block wx:else>
+          <view style="width: 100%;height: 20px;margin-top: 10px">{{userInfo.nickName}}</view>
+          <image
+            src="{{userInfo.avatarUrl}}"
+            style="width: 50px;height: 50px;border-radius:50%;margin-top: 15px"
+          >
+        </block>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import wenziZhanshi from '../component/wenziZhanshi';
+// import http from '../request/http';
+// import { getopenid } from '../api/api';
+
+export default class Wenzi extends wepy.page {
+  config = {
+    navigationBarTitleText: '第三页',
+    usingComponents: {
+      'van-button': '/lib/button/index',
+      'van-row': '/lib/row/index',
+      'van-col': '/lib/col/index'
+    }
+  };
+
+  data = {
+    active: 0,
+    hasUserInfo: false,
+    canIUse: true,
+    add: true,
+    has: true,
+    userInfo: ''
+  };
+
+  methods = {
+    // 点击事件
+    async bindGetUserInfo(e) {
+      console.log(e.detail.userInfo);
+      if (e.detail.userInfo) {
+        this.has = false;
+        this.userInfo = e.detail.userInfo;
+        this.$apply();
+        getopenid(e.detail.userInfo.code).then(res => {
+
+      
+        });
+        wepy.setStorageSync('token', 1);
+        wepy.setStorageSync('userinfo', e.detail.userInfo);
+      } else {
+
+      }
+    }
+  };
+
+  onShow() {
+
+
+
+    // 从本地存储中获取 token
+    const token = wepy.getStorageSync('token');
+
+    // 从本地存储中获取 用户资料 数据
+    const userInfo = wepy.getStorageSync('userinfo');
+    // console.log(userInfo)
+    if (token == 1) {
+      this.has = false;
+      var that = this
+      wx.getUserInfo({
+        success: function(res) {
+          that.userInfo = res.userInfo;
+          that.$apply();
+        }
+      });
+
+      wx.login({
+        success:function(res){
+          console.log(res)
+          let obj = {
+            code:res.code
+          }
+
+        // getopenid(obj).then(res => {
+
+      
+        // });
+
+
+        wx.request({
+          url: 'https://www.hanq0904.com/login_wx?code=', //仅为示例，并非真实的接口地址
+          data: {
+            code: res.code
+
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            console.log(res)
+          }
+        })
+
+        }
+      })
+
+    }
+  }
+}
+</script>

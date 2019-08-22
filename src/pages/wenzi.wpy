@@ -1,0 +1,39 @@
+<style lang="less">
+page {
+  width: 100%;
+  height: 100%;
+  background-image: url('http://www.hanq0904.com/img/4.jpg');
+  background-size: 130%;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+</style>
+<template>
+  <view>
+    <wenziZhanshi></wenziZhanshi>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import wenziZhanshi from '../component/wenziZhanshi';
+
+export default class Wenzi extends wepy.page {
+  config = {
+    navigationBarTitleText: '第二页',
+    usingComponents: {
+      'van-button': '/lib/button/index',
+      'van-row': '/lib/row/index',
+      'van-col': '/lib/col/index'
+    }
+  };
+
+  components = {
+    wenziZhanshi: wenziZhanshi
+  };
+  onLoad() {
+    console.log('onLoad');
+  }
+}
+</script>

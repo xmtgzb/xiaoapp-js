@@ -1,0 +1,16 @@
+<template>
+    <van-row gutter="20">
+        <van-col span="12">1</van-col>
+        <van-col span="12">2</van-col>
+    </van-row>
+
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class ImgZhanshi extends wepy.component {}
+</script>
+
+<style lang='less'>
+</style>

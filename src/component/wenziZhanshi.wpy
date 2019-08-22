@@ -1,0 +1,22 @@
+<template>
+        <view>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+        <van-button type="default">默认按钮</van-button>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class WenziZhanshi extends wepy.component {
+    
+}
+</script>
+
+<style lang='less'>
+
+</style>
