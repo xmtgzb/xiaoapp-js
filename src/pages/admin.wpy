@@ -107,12 +107,12 @@ export default class Wenzi extends wepy.page {
         this.has = false;
         this.userInfo = e.detail.userInfo;
         this.$apply();
-        getopenid(e.detail.userInfo.code).then(res => {
 
-      
-        });
         wepy.setStorageSync('token', 1);
         wepy.setStorageSync('userinfo', e.detail.userInfo);
+
+    const token = wepy.getStorageSync('token');
+        console.log(token)
       } else {
 
       }
@@ -152,19 +152,6 @@ export default class Wenzi extends wepy.page {
         // });
 
 
-        wx.request({
-          url: 'https://www.hanq0904.com/login_wx?code=', //仅为示例，并非真实的接口地址
-          data: {
-            code: res.code
-
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success (res) {
-            console.log(res)
-          }
-        })
 
         }
       })
