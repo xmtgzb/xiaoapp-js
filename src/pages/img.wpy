@@ -1,18 +1,23 @@
 <template>
   <view id="img">
     <view class="tit">
+      <view class="bgcbox"></view>
       <view class="butbox">
         <ul>
-          <li class="titbut">1</li>
+          <li bindtap="qiehuan(1)" class="{{ color == 1 ? 'titbut':'titbut2' }}">1</li>
           <span class="titspan">\</span>
-          <li class="titbut">2</li>
+          <li bindtap="qiehuan(2)" class="{{ color == 2 ? 'titbut':'titbut2' }}">2</li>
           <span class="titspan">\</span>
-          <li class="titbut">3</li>
+          <li bindtap="qiehuan(3)" class="{{ color == 3 ? 'titbut':'titbut2' }}">3</li>
           <span class="titspan">\</span>
-          <li bind:click="we" class="titbut">4</li>
+          <li bindtap="qiehuan(4)" class="{{ color == 4 ? 'titbut':'titbut2' }}">4</li>
         </ul>
       </view>
-      <view class="bgcbox"></view>
+      <view bindtap="append" class="appendbox">
+        <van-transition  custom-class="block">
+          <van-icon name="{{ show == true ? 'plus':'cross' }}"/>
+        </van-transition>
+      </view>
     </view>
     <!-- 插件 -->
     <view class="awhl">
@@ -24,6 +29,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
+import { setupload, tianqi,setuploadimg } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -31,63 +37,80 @@ export default class Img extends wepy.page {
     navigationBarBackgroundColor: '#8f77B5',
     enablePullDownRefresh: true,
     backgroundTextStyle: 'dark',
+    backgroundColor: '#786092'
 
     // 引用vant组件
-    usingComponents: {
-      'van-button': '/lib/button/index',
-      'van-row': '/lib/row/index',
-      'van-col': '/lib/col/index',
-      'van-tabbar': '/lib/tabbar/index',
-      'van-tabbar-item': '/lib/tabbar-item/index',
-      'van-popup': '/lib/popup/index'
-    }
+    // usingComponents: {
+    //   'van-button': '/lib/button/index',
+    //   'van-row': '/lib/row/index',
+    //   'van-col': '/lib/col/index',
+    //   'van-tabbar': '/lib/tabbar/index',
+    //   'van-tabbar-item': '/lib/tabbar-item/index',
+    //   'van-popup': '/lib/popup/index',
+    //   'van-transition': "/lib/transition/index",
+    //    "van-icon": "/lib/icon/index"
+    // }
   };
   data = {
     active: 0,
-    canIUse: ""
+    canIUse: '',
+    color: '',
+    show: true
   };
 
   methods = {
-    onChange(event) {
-      console.log(event.detail);
+    // 上传预览图片
+    async qiehuan() {
+
+      
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success(res) {
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths;
+          console.log(res);
+          console.log(tempFilePaths);
+
+
+          setuploadimg(res.tempFilePaths).then(res => {});
+        }
+      });
     },
 
-    bindGetUserInfo: function(e) {
-      console.log(e.detail.userInfo);
-      if (e.detail.userInfo) {
-        //用户按了允许授权按钮
+    // qiehuan(index) {
+    //   this.color = index;
+    //   this.$apply();
+    // },
 
-        this.canIUse = false;
-      } else {
-        //用户按了拒绝按钮
+    append(){
+      this.show = false
+      this.$apply();
 
-      }
-    },
-    we: function() {
-    
     }
   };
 
-  // 下拉刷新
-  onPullDownRefresh() {
-    console.log('下拉刷新列表');
+  // // 下拉刷新
+  // onPullDownRefresh() {
+  //   console.log('下拉刷新列表');
 
-    setTimeout(function() {
-      // 不加这个方法真机下拉会一直处于刷新状态，无法复位
-      wepy.stopPullDownRefresh();
-    }, 5000);
-  }
+  //   setTimeout(function() {
+  //     // 不加这个方法真机下拉会一直处于刷新状态，无法复位
+  //     wepy.stopPullDownRefresh();
+  //   }, 5000);
+  // }
 
-  // 上拉加载
-  onReachBottom() {
-    console.log('上拉加载下一页');
-    wepy.showToast({
-      title: '上拉加载下一页',
-      icon: 'none',
-      mask: true,
-      duration: 1000
-    });
-  }
+  // // 上拉加载
+  // onReachBottom() {
+  //   console.log('上拉加载下一页');
+  //   wepy.showToast({
+  //     title: '上拉加载下一页',
+  //     icon: 'none',
+  //     mask: true,
+  //     duration: 1000
+  //   });
+  // }
 
   // 组件加载
   components = {
@@ -95,20 +118,7 @@ export default class Img extends wepy.page {
   };
 
   // 监听页面加载
-  async onLoad() {
-    var that = this;
-
-    // var aa = wx.canIUse('button.open-type.getUserInfo')
-    // if(aa == true){
-    //   this.canIUse = false
-    // }else{
-    //   this.canIUse = true
-
-    // }
-
-
-
-  }
+  async onLoad() {}
 }
 </script>
 
@@ -116,8 +126,8 @@ export default class Img extends wepy.page {
 page {
   width: 100%;
   height: 100%;
-  background-image: url('http://www.hanq0904.com/img/1.jpg');
-  background-size: 110%;
+  background-image: url('https://www.hanq0904.com/img/1.jpg');
+  background-size: 130%;
   background-attachment: fixed;
   background-position: center center;
   background-repeat: no-repeat;
@@ -127,34 +137,11 @@ page {
     width: 100%;
   }
 
-  .tit {
-    height: 30px;
-    width: 100%;
-
-    position: relative;
-  }
-
   .bgcbox {
     height: 30px;
     width: 100%;
     background-color: #fff;
     opacity: 0.3;
-  }
-
-  .butbox {
-    position: absolute;
-    top: 0;
-    left: 20px;
-  }
-  .titbut {
-    line-height: 30px;
-    color: aqua;
-    // padding-left: 10px
-  }
-
-  .titspan {
-    padding-left: 10px;
-    padding-right: 10px;
   }
 
   .van-tabbar--fixed {

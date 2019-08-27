@@ -2,7 +2,7 @@
 page {
   width: 100%;
   height: 100%;
-  background-image: url('http://www.hanq0904.com/img/4.jpg');
+  background-image: url('https://www.hanq0904.com/img/4.jpg');
   background-size: 130%;
   background-attachment: fixed;
   background-position: center center;

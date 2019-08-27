@@ -1,16 +1,32 @@
 <template>
-    <van-row gutter="20">
-        <van-col span="12">1</van-col>
-        <van-col span="12">2</van-col>
-    </van-row>
-
+  <van-row for="{{imgbox}}" key="index" index="index" item="item" gutter="20">
+    <van-col span="12">
+      <view class="imgblock">
+        <view class="imgblockbgc"></view>
+      </view>
+    </van-col>
+  </van-row>
 </template>
 
 <script>
 import wepy from 'wepy';
 
-export default class ImgZhanshi extends wepy.component {}
+export default class ImgZhanshi extends wepy.component {
+  data = {
+    imgbox: [{}]
+  };
+}
 </script>
 
 <style lang='less'>
+.imgblock {
+  width: 100%;
+  height: 400px;
+}
+.imgblockbgc {
+  width: 100%;
+  height: 400px;
+  background-color: #fff;
+  opacity: 0.3;
+}
 </style>

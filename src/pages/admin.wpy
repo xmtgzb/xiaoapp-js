@@ -2,7 +2,7 @@
 page {
   width: 100%;
   height: 100%;
-  background-image: url('http://www.hanq0904.com/img/3.jpg');
+  background-image: url('https://www.hanq0904.com/img/3.jpg');
   background-size: 130%;
   background-attachment: fixed;
   background-position: center center;
@@ -77,8 +77,8 @@ page {
 <script>
 import wepy from 'wepy';
 import wenziZhanshi from '../component/wenziZhanshi';
-// import http from '../request/http';
-// import { getopenid } from '../api/api';
+import http from '../request/http';
+import { getopenid,tianqi } from '../api/api';
 
 export default class Wenzi extends wepy.page {
   config = {
@@ -146,10 +146,10 @@ export default class Wenzi extends wepy.page {
             code:res.code
           }
 
-        // getopenid(obj).then(res => {
+        getopenid(obj).then(res => {
 
       
-        // });
+        });
 
 
 

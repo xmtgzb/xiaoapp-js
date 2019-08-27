@@ -4,32 +4,48 @@ import {
 
 
 var url = {
-  userLogin: "/user/login", 
-  getUserPhone: "/user/phone", 
-  openid:'/login_wx?code='
 
+  openid:'/login_wx?code=',
+  tianqi:'https://www.tianqiapi.com/api/',
+  upload:'/upload',  //单个上传文件
+  uploadimg:'/uploadimg'
 }
 module.exports = {
-  userLogin(code) {
-    return http({      
-      url: url.userLogin,
-      data: { code: code},
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    })
-  },
-  getUserPhone(params) {
+
+  tianqi(params) {
     return http({
-      url: url.getUserPhone,
-      data: params
+      url: url.tianqi,
+      method:"GET",
+      data: params,
+
     })
   },
+
   getopenid(params) {
     return http({
       url: url.openid,
       method:"GET",
       data: params
+
+    })
+  },
+
+  setupload(params) {
+    return http({
+      url: url.upload,
+      method:"post",
+      data: params
+
+    })
+  },
+  setuploadimg(params) {
+    return http({
+      url: url.uploadimg,
+      method:"post",
+      data: params,
+      header:{
+        'Content-Type': 'multipart/form-data'
+      }
 
     })
   },

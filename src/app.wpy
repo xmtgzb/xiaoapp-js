@@ -1,7 +1,46 @@
 <style lang="less">
 .van-col--12 {
-  text-align: center
+  text-align: center;
 }
+
+// 页面顶部切换菜单开始
+
+.tit {
+  height: 30px;
+  width: 100%;
+
+  position: relative;
+}
+
+.butbox {
+  position: absolute;
+  top: 0;
+  left: 20px;
+}
+.titbut {
+  line-height: 30px;
+  color: aqua;
+  // padding-left: 10px
+}
+
+.titbut2 {
+  line-height: 30px;
+  // color: #0000;
+}
+
+.titspan {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.appendbox {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  line-height: 30px;
+}
+
+// 页面顶部切换菜单结束
 </style>
  
 <script>
@@ -11,11 +50,11 @@ import 'wepy-async-function';
 export default class extends wepy.app {
   constructor() {
     super();
-    this.use('promisify')
+    this.use('promisify');
   }
 
   config = {
-    pages: ['pages/img', 'pages/wenzi','pages/admin'],
+    pages: ['pages/img', 'pages/wenzi', 'pages/admin'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -25,7 +64,7 @@ export default class extends wepy.app {
     tabBar: {
       selectedColor: '#07c160',
       color: '#3b3d3d',
-      borderStyle:'white',
+      borderStyle: 'white',
       list: [
         {
           pagePath: 'pages/img',
@@ -37,16 +76,24 @@ export default class extends wepy.app {
           pagePath: 'pages/wenzi',
           iconPath: '/assets/img/wenzi1.png',
           selectedIconPath: '/assets/img/wenzi2.png'
-
         },
         {
           pagePath: 'pages/admin',
           iconPath: '/assets/img/admin1.png',
           selectedIconPath: '/assets/img/admin2.png'
-
         }
-
       ]
+    },
+    // 引用vant组件
+    usingComponents: {
+      'van-button': '/lib/button/index',
+      'van-row': '/lib/row/index',
+      'van-col': '/lib/col/index',
+      'van-tabbar': '/lib/tabbar/index',
+      'van-tabbar-item': '/lib/tabbar-item/index',
+      'van-popup': '/lib/popup/index',
+      'van-transition': '/lib/transition/index',
+      'van-icon': '/lib/icon/index'
     }
   };
 
