@@ -5,17 +5,17 @@ import {
 
 var url = {
 
-  openid:'/login_wx?code=',
-  tianqi:'https://www.tianqiapi.com/api/',
-  upload:'/upload',  //单个上传文件
-  uploadimg:'/uploadimg'
+  openid: '/login_wx?code=',
+  tianqi: 'https://www.tianqiapi.com/api/',
+  upload: '/upload',  //单个上传文件
+  uploadimg: '/uploadimg'
 }
 module.exports = {
 
   tianqi(params) {
     return http({
       url: url.tianqi,
-      method:"GET",
+      method: "GET",
       data: params,
 
     })
@@ -24,7 +24,7 @@ module.exports = {
   getopenid(params) {
     return http({
       url: url.openid,
-      method:"GET",
+      method: "GET",
       data: params
 
     })
@@ -33,7 +33,7 @@ module.exports = {
   setupload(params) {
     return http({
       url: url.upload,
-      method:"post",
+      method: "post",
       data: params
 
     })
@@ -41,9 +41,9 @@ module.exports = {
   setuploadimg(params) {
     return http({
       url: url.uploadimg,
-      method:"post",
+      method: "post",
       data: params,
-      header:{
+      header: {
         'Content-Type': 'multipart/form-data'
       }
 
