@@ -81,7 +81,7 @@ import http from '../request/http';
 import { getopenid,tianqi } from '../api/api';
 
 export default class Wenzi extends wepy.page {
-  config = {
+ config = {
     navigationBarTitleText: '第三页',
     usingComponents: {
       'van-button': '/lib/button/index',
@@ -123,12 +123,12 @@ export default class Wenzi extends wepy.page {
 
 
 
-    // 从本地存储中获取 token
+
     const token = wepy.getStorageSync('token');
 
-    // 从本地存储中获取 用户资料 数据
+
     const userInfo = wepy.getStorageSync('userinfo');
-    // console.log(userInfo)
+
     if (token == 1) {
       this.has = false;
       var that = this
@@ -146,6 +146,8 @@ export default class Wenzi extends wepy.page {
             code:res.code
           }
 
+          console.log('sd',obj)
+
         getopenid(obj).then(res => {
 
       
@@ -159,4 +161,6 @@ export default class Wenzi extends wepy.page {
     }
   }
 }
+ 
+
 </script>

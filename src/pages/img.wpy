@@ -70,9 +70,8 @@ export default class Img extends wepy.page {
         success(res) {
           // tempFilePath可以作为img标签的src属性显示图片
           const tempFilePaths = res.tempFilePaths;
-          console.log(res);
-          console.log(tempFilePaths);
-		wx.uploadFile({
+
+		    wx.uploadFile({
           url: 'http://127.0.0.1:8080/weChat/uploadImage', 
           filePath: tempFilePaths[0],
           name: 'file',
@@ -81,7 +80,7 @@ export default class Img extends wepy.page {
           },
           success: function (res) {
             var data = res.data
-            //do something
+
           },fail:function(err){
             console.log(err)
           }
@@ -89,11 +88,6 @@ export default class Img extends wepy.page {
         }
       });
     },
-
-    // qiehuan(index) {
-    //   this.color = index;
-    //   this.$apply();
-    // },
 
     append(){
       this.show = false
