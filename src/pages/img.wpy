@@ -72,9 +72,20 @@ export default class Img extends wepy.page {
           const tempFilePaths = res.tempFilePaths;
           console.log(res);
           console.log(tempFilePaths);
-
-
-          setuploadimg(res.tempFilePaths).then(res => {});
+		wx.uploadFile({
+          url: 'http://127.0.0.1:8080/weChat/uploadImage', 
+          filePath: tempFilePaths[0],
+          name: 'file',
+          formData: {
+            'user': 'test'
+          },
+          success: function (res) {
+            var data = res.data
+            //do something
+          },fail:function(err){
+            console.log(err)
+          }
+        })
         }
       });
     },
