@@ -54,11 +54,11 @@ export default class extends wepy.app {
   }
 
   config = {
-    pages: ['pages/img', 'pages/wenzi', 'pages/admin'],
+    pages: ['pages/img', 'pages/wenzi', 'pages/admin','pages/release'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      // navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     },
     tabBar: {
@@ -93,7 +93,10 @@ export default class extends wepy.app {
       'van-tabbar-item': '/lib/tabbar-item/index',
       'van-popup': '/lib/popup/index',
       'van-transition': '/lib/transition/index',
-      'van-icon': '/lib/icon/index'
+      'van-icon': '/lib/icon/index',
+      "van-nav-bar": "/lib/nav-bar/index",
+      "van-picker": "/lib/picker/index",
+      "van-popup": "/lib/popup/index"
     }
   };
 

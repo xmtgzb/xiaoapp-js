@@ -54,44 +54,64 @@ export default class Img extends wepy.page {
   data = {
     active: 0,
     canIUse: '',
-    color: '',
+    color: '1',
     show: true
   };
 
   methods = {
-    // 上传预览图片
-    async qiehuan() {
 
-      
-      wx.chooseImage({
-        count: 1,
-        sizeType: ['original', 'compressed'],
-        sourceType: ['album', 'camera'],
-        success(res) {
-          // tempFilePath可以作为img标签的src属性显示图片
-          const tempFilePaths = res.tempFilePaths;
 
-		    wx.uploadFile({
-          url: 'http://127.0.0.1:8080/weChat/uploadImage', 
-          filePath: tempFilePaths[0],
-          name: 'file',
-          formData: {
-            'user': 'test'
-          },
-          success: function (res) {
-            var data = res.data
 
-          },fail:function(err){
-            console.log(err)
-          }
-        })
-        }
-      });
+    // 切换顶部导航
+    async qiehuan(e) {
+
+
+      this.color = e
+      this.$apply();
+
+
+      // 点击上传图片
+      // wx.chooseImage({
+      //   count: 1,
+      //   sizeType: ['original', 'compressed'],
+      //   sourceType: ['album', 'camera'],
+      //   success(res) {
+      //     // tempFilePath可以作为img标签的src属性显示图片
+      //     const tempFilePaths = res.tempFilePaths;
+
+		  //   wx.uploadFile({
+      //     url: 'http://127.0.0.1:8080/weChat/uploadImage', 
+      //     filePath: tempFilePaths[0],
+      //     name: 'file',
+      //     formData: {
+      //       'user': 'test'
+      //     },
+      //     success: function (res) {
+      //       var data = res.data
+
+      //     },fail:function(err){
+      //       console.log(err)
+      //     }
+      //   })
+      //   }
+      // });
+
+
+
+
     },
 
     append(){
       this.show = false
       this.$apply();
+
+    // wx.navigateTo({
+    //   url: 'pages/release'
+    // })
+
+      wepy.navigateTo({
+        url: '/pages/release'
+      })
 
     }
   };
@@ -172,6 +192,12 @@ page {
       }
     }
   }
+
+
+  .awhl {
+    margin-top: 10px;
+  }
+
 }
 </style>
 
