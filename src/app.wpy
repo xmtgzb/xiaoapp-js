@@ -3,6 +3,7 @@
   text-align: center;
 }
 
+
 // 页面顶部切换菜单开始
 
 .tit {
@@ -54,7 +55,7 @@ export default class extends wepy.app {
   }
 
   config = {
-    pages: ['pages/img', 'pages/wenzi', 'pages/admin','pages/release'],
+    pages: ['pages/img', 'pages/wenzi', 'pages/admin', 'pages/release'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -93,10 +94,16 @@ export default class extends wepy.app {
       'van-tabbar-item': '/lib/tabbar-item/index',
       'van-popup': '/lib/popup/index',
       'van-transition': '/lib/transition/index',
+      'van-nav-bar': '/lib/nav-bar/index',
+      'van-picker': '/lib/picker/index',
+      'van-popup': '/lib/popup/index',
       'van-icon': '/lib/icon/index',
-      "van-nav-bar": "/lib/nav-bar/index",
-      "van-picker": "/lib/picker/index",
-      "van-popup": "/lib/popup/index"
+      "van-switch-cell": "/lib/switch-cell/index",
+      "van-cell": "/lib/cell/index",
+      "van-cell-group": "/lib/cell-group/index"
+
+
+
     }
   };
 

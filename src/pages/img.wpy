@@ -14,12 +14,13 @@
         </ul>
       </view>
       <view bindtap="append" class="appendbox">
-        <van-transition  custom-class="block">
+   
           <van-icon name="{{ show == true ? 'plus':'cross' }}"/>
-        </van-transition>
+
       </view>
     </view>
     <!-- 插件 -->
+
     <view class="awhl">
       <imgZhanshi></imgZhanshi>
     </view>
@@ -29,7 +30,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
-import { setupload, tianqi,setuploadimg } from '../api/api';
+import { setupload, tianqi, setuploadimg } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -59,16 +60,10 @@ export default class Img extends wepy.page {
   };
 
   methods = {
-
-
-
     // 切换顶部导航
     async qiehuan(e) {
-
-
-      this.color = e
+      this.color = e;
       this.$apply();
-
 
       // 点击上传图片
       // wx.chooseImage({
@@ -79,8 +74,8 @@ export default class Img extends wepy.page {
       //     // tempFilePath可以作为img标签的src属性显示图片
       //     const tempFilePaths = res.tempFilePaths;
 
-		  //   wx.uploadFile({
-      //     url: 'http://127.0.0.1:8080/weChat/uploadImage', 
+      //   wx.uploadFile({
+      //     url: 'http://127.0.0.1:8080/weChat/uploadImage',
       //     filePath: tempFilePaths[0],
       //     name: 'file',
       //     formData: {
@@ -95,24 +90,19 @@ export default class Img extends wepy.page {
       //   })
       //   }
       // });
-
-
-
-
     },
 
-    append(){
-      this.show = false
+    append() {
+      this.show = false;
       this.$apply();
 
-    // wx.navigateTo({
-    //   url: 'pages/release'
-    // })
+      // wx.navigateTo({
+      //   url: 'pages/release'
+      // })
 
       wepy.navigateTo({
         url: '/pages/release'
-      })
-
+      });
     }
   };
 
@@ -193,11 +183,9 @@ page {
     }
   }
 
-
   .awhl {
     margin-top: 10px;
   }
-
 }
 </style>
 
