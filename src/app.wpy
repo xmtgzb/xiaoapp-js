@@ -100,7 +100,8 @@ export default class extends wepy.app {
       'van-icon': '/lib/icon/index',
       "van-switch-cell": "/lib/switch-cell/index",
       "van-cell": "/lib/cell/index",
-      "van-cell-group": "/lib/cell-group/index"
+      "van-cell-group": "/lib/cell-group/index",
+      "van-field": "/lib/field/index"
 
 
 

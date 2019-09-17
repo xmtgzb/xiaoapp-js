@@ -5,10 +5,11 @@ import {
 
 var url = {
 
-  openid: '/login_wx?code=',
+  openid: '/login',
   tianqi: 'https://www.tianqiapi.com/api/',
   upload: '/upload',  //单个上传文件
-  uploadimg: '/uploadimg'
+  uploadimg: '/uploadimg',
+  oneimg:"/uploadOne"
 }
 module.exports = {
 

@@ -3,7 +3,7 @@
  */
 
 
-// const apiUrl = "http://localhost"; //服务器api地址
+const apiUrl = "http://localhost:8080"; //服务器api地址
 const http = (params) => {
   //返回promise 对象
   return new Promise((resolve, reject) => {

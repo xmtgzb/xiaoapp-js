@@ -148,7 +148,7 @@ export default class Wenzi extends wepy.page {
 
           console.log('sd',obj)
 
-        getopenid(obj).then(res => {
+        getopenid().then(res => {
 
       
         });
