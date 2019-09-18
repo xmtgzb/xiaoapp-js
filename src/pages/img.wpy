@@ -30,7 +30,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
-import { setupload, tianqi, setuploadimg } from '../api/api';
+import { setupload, tianqi, setuploadimg,getDwFiles } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -115,6 +115,12 @@ export default class Img extends wepy.page {
   }
   async onShow() {
 
+    let obj = {
+      xiangCe:'盛夏'
+    }
+    getDwFiles(obj).then(res =>{
+
+    })
 
   }
 

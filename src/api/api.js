@@ -9,7 +9,8 @@ var url = {
   tianqi: 'https://www.tianqiapi.com/api/',
   upload: '/upload',  //单个上传文件
   uploadimg: '/uploadimg',
-  oneimg:"/uploadOne"
+  oneimg:"/uploadOne",
+  getDwFiles:"/getDwFiles"
 }
 module.exports = {
 
@@ -47,6 +48,18 @@ module.exports = {
       header: {
         'Content-Type': 'multipart/form-data'
       }
+
+    })
+  },
+
+
+
+  // 获取首页图片
+  getDwFiles(params) {
+    return http({
+      url: url.getDwFiles,
+      method: "post",
+      data: params
 
     })
   },
