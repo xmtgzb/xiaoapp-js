@@ -47,7 +47,6 @@
 <script>
 import wepy from 'wepy';
 import 'wepy-async-function';
-
 export default class extends wepy.app {
   constructor() {
     super();
@@ -101,7 +100,8 @@ export default class extends wepy.app {
       "van-switch-cell": "/lib/switch-cell/index",
       "van-cell": "/lib/cell/index",
       "van-cell-group": "/lib/cell-group/index",
-      "van-field": "/lib/field/index"
+      "van-field": "/lib/field/index",
+      "van-toast": "/lib/toast/index"
 
 
 

@@ -4,18 +4,18 @@
       <view class="bgcbox"></view>
       <view class="butbox">
         <ul>
-          <li bindtap="qiehuan(1)" class="{{ color == 1 ? 'titbut':'titbut2' }}">1</li>
+          <li bindtap="qiehuan(1)" class="{{ color == 1 ? 'titbut':'titbut2' }}">盛夏</li>
           <span class="titspan">\</span>
-          <li bindtap="qiehuan(2)" class="{{ color == 2 ? 'titbut':'titbut2' }}">2</li>
+          <li bindtap="qiehuan(2)" class="{{ color == 2 ? 'titbut':'titbut2' }}">孤独</li>
           <span class="titspan">\</span>
-          <li bindtap="qiehuan(3)" class="{{ color == 3 ? 'titbut':'titbut2' }}">3</li>
+          <li bindtap="qiehuan(3)" class="{{ color == 3 ? 'titbut':'titbut2' }}">好逑</li>
           <span class="titspan">\</span>
-          <li bindtap="qiehuan(4)" class="{{ color == 4 ? 'titbut':'titbut2' }}">4</li>
+          <li bindtap="qiehuan(4)" class="{{ color == 4 ? 'titbut':'titbut2' }}">狗粮</li>
         </ul>
       </view>
       <view bindtap="append" class="appendbox">
    
-          <van-icon name="{{ show == true ? 'plus':'cross' }}"/>
+          <van-icon name="plus"/>
 
       </view>
     </view>
@@ -65,31 +65,7 @@ export default class Img extends wepy.page {
       this.color = e;
       this.$apply();
 
-      // 点击上传图片
-      // wx.chooseImage({
-      //   count: 1,
-      //   sizeType: ['original', 'compressed'],
-      //   sourceType: ['album', 'camera'],
-      //   success(res) {
-      //     // tempFilePath可以作为img标签的src属性显示图片
-      //     const tempFilePaths = res.tempFilePaths;
 
-      //   wx.uploadFile({
-      //     url: 'http://127.0.0.1:8080/weChat/uploadImage',
-      //     filePath: tempFilePaths[0],
-      //     name: 'file',
-      //     formData: {
-      //       'user': 'test'
-      //     },
-      //     success: function (res) {
-      //       var data = res.data
-
-      //     },fail:function(err){
-      //       console.log(err)
-      //     }
-      //   })
-      //   }
-      // });
     },
 
     append() {
@@ -133,7 +109,15 @@ export default class Img extends wepy.page {
   };
 
   // 监听页面加载
-  async onLoad() {}
+  async onLoad() {
+
+    console.log('陈安歌')
+  }
+  async onShow() {
+
+    console.log('陈安歌2')
+  }
+
 }
 </script>
 
