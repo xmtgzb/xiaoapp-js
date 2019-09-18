@@ -115,7 +115,7 @@ export default class Img extends wepy.page {
   }
   async onShow() {
 
-    console.log('陈安歌2')
+
   }
 
 }
