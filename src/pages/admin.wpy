@@ -67,7 +67,7 @@ page {
           <image
             src="{{userInfo.avatarUrl}}"
             style="width: 50px;height: 50px;border-radius:50%;margin-top: 15px"
-          >
+          />
         </block>
       </view>
     </view>
@@ -78,10 +78,10 @@ page {
 import wepy from 'wepy';
 import wenziZhanshi from '../component/wenziZhanshi';
 import http from '../request/http';
-import { getopenid,tianqi } from '../api/api';
+import { getopenid, tianqi } from '../api/api';
 
 export default class Wenzi extends wepy.page {
- config = {
+  config = {
     navigationBarTitleText: '第三页',
     usingComponents: {
       'van-button': '/lib/button/index',
@@ -111,27 +111,37 @@ export default class Wenzi extends wepy.page {
         wepy.setStorageSync('token', 1);
         wepy.setStorageSync('userinfo', e.detail.userInfo);
 
-    const token = wepy.getStorageSync('token');
-        console.log(token)
-      } else {
+        const token = wepy.getStorageSync('token');
+        console.log(token);
 
+        wx.login({
+          success: function(res) {
+            console.log(res);
+            let obj = {
+              code: res.code
+            };
+
+            console.log('sd', obj);
+
+            getopenid().then(res => {
+              console.log('sd2', res);
+              wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+            });
+          }
+        });
+      } else {
       }
     }
   };
 
   onShow() {
-
-
-
-
     const token = wepy.getStorageSync('token');
-
 
     const userInfo = wepy.getStorageSync('userinfo');
 
     if (token == 1) {
       this.has = false;
-      var that = this
+      var that = this;
       wx.getUserInfo({
         success: function(res) {
           that.userInfo = res.userInfo;
@@ -140,30 +150,21 @@ export default class Wenzi extends wepy.page {
       });
 
       wx.login({
-        success:function(res){
-          console.log(res)
+        success: function(res) {
+          console.log(res);
           let obj = {
-            code:res.code
-          }
+            code: res.code
+          };
 
-          console.log('sd',obj)
+          console.log('sd', obj);
 
-        getopenid().then(res => {
-
-          console.log('sd2',res)
-          wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
-
-      
-        });
-
-
-
+          getopenid().then(res => {
+            console.log('sd2', res);
+            wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+          });
         }
-      })
-
+      });
     }
   }
 }
- 
-
 </script>
