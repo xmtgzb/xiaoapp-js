@@ -150,6 +150,9 @@ export default class Wenzi extends wepy.page {
 
         getopenid().then(res => {
 
+          console.log('sd2',res)
+          wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+
       
         });
 

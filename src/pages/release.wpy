@@ -90,7 +90,7 @@ export default class Release extends wepy.page {
     xuaqu:true,
     columns: ['时光', '孤岛', '长风', '七海'],
     checked: false,
-    neirong: '长安',
+    neirong: '',
     blog: false,
     miaoshu:"",
     img:true,
@@ -144,6 +144,9 @@ export default class Release extends wepy.page {
           url: 'http://127.0.0.1:8080/uploadOne',
           filePath: that.imgbox[0],
           name: 'file',
+          header:{
+            'uniqueFlag':wx.getStorageSync('uniqueFlag')
+          },
           formData: {
             'fileDesc': that.miaoshu,
             'fileName':that.imgbox[0],
