@@ -4,19 +4,16 @@
       <view class="bgcbox"></view>
       <view class="butbox">
         <ul>
-          <li bindtap="qiehuan(1)" class="{{ color == 1 ? 'titbut':'titbut2' }}">盛夏</li>
-          <span class="titspan">\</span>
-          <li bindtap="qiehuan(2)" class="{{ color == 2 ? 'titbut':'titbut2' }}">孤独</li>
-          <span class="titspan">\</span>
-          <li bindtap="qiehuan(3)" class="{{ color == 3 ? 'titbut':'titbut2' }}">好逑</li>
-          <span class="titspan">\</span>
-          <li bindtap="qiehuan(4)" class="{{ color == 4 ? 'titbut':'titbut2' }}">狗粮</li>
+
+  
+          <li wx:for="{{fenlei}}" class="{{ color == item.index ? 'titbut':'titbut2' }}"  data-index='{{item.index}}' bindtap="qiehuan">{{item.dosc}}
+            <span wx:if="{{item.index != fenlei.length}}" class="titspan">\</span>
+          </li>
+
         </ul>
       </view>
       <view bindtap="append" class="appendbox">
-   
-          <van-icon name="plus"/>
-
+        <van-icon name="plus" />
       </view>
     </view>
     <!-- 插件 -->
@@ -30,7 +27,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
-import { setupload, tianqi, setuploadimg,getDwFiles } from '../api/api';
+import { setupload, tianqi, setuploadimg, getDwFiles } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -56,16 +53,32 @@ export default class Img extends wepy.page {
     active: 0,
     canIUse: '',
     color: '1',
-    show: true
+    show: true,
+    fenlei: [
+      {
+        index: 1,
+        dosc: '盛夏'
+      },
+      {
+        index: 2,
+        dosc: '孤独'
+      },
+      {
+        index: 3,
+        dosc: '好逑'
+      },
+      {
+        index: 4,
+        dosc: '狗粮'
+      }
+    ]
   };
 
   methods = {
     // 切换顶部导航
     async qiehuan(e) {
-      this.color = e;
+      this.color = e.currentTarget.dataset.index;
       this.$apply();
-
-
     },
 
     append() {
@@ -110,20 +123,14 @@ export default class Img extends wepy.page {
 
   // 监听页面加载
   async onLoad() {
-
-    console.log('陈安歌')
+    console.log('陈安歌');
   }
   async onShow() {
-
     let obj = {
-      xiangCe:'盛夏'
-    }
-    getDwFiles(obj).then(res =>{
-
-    })
-
+      xiangCe: '盛夏'
+    };
+    getDwFiles(obj).then(res => {});
   }
-
 }
 </script>
 
