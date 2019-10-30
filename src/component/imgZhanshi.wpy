@@ -1,56 +1,107 @@
 <template>
-  <van-row for="{{imgbox}}" key="index" index="index" item="item" gutter="20">
+
+
+
+
+
     <view class="hang">
-      <van-col span="12">
+
+    <view  class="zhanshi" wx:for="{{imgbox}}" >
         <view class="imgblock">
           <view class="imgblockbgc"></view>
-        </view>
-      </van-col>
-      <van-col span="12">
-        <view class="imgblock">
-          <view class="imgblockbgc"></view>
-          <view class="imgblockzhengwen">2</view>
-        </view>
-      </van-col>
+          <view class="imgblockzhengwen">
+            <image
+              class="imagezhanshi"
+              style="width: 90%; height: 300rpx; background-color: #eeeeee;"
+              mode="scaleToFill"
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568891936738&di=4a5e2ed785162c466e76099291634a9c&imgtype=0&src=http%3A%2F%2Fimg1.cache.netease.com%2Fcatchpic%2F7%2F7C%2F7CDCCDFF33DED8E9ED6D9F4E2BFA149D.jpg"
+            />
+          </view>
+
+          <view class="fileDesc">{{item.fileDesc}}</view>
+        </view> 
     </view>
-  </van-row>
+
+
+    </view>
+
+
 </template>
 
 <script>
 import wepy from 'wepy';
-
+import { setupload, tianqi, setuploadimg, getDwFiles } from '../api/api';
 export default class ImgZhanshi extends wepy.component {
   data = {
     imgbox: [{}]
+  };
+
+  // 获取父组件传值
+  events = {
+    chooseShowPage(newValue) {
+      let obj = {
+        xiangCe: newValue
+      };
+      getDwFiles(obj).then(res => {
+        if (res.files.length != 0) {
+          for (var i = 0; i < res.files.length; i++) {
+            res.files[i].sltPath = res.files[i].sltPath + res.files[i].sltName;
+            console.log(res.files[i].sltPath);
+          }
+          this.imgbox = res.files;
+          this.$apply();
+        } else {
+          this.imgbox = [];
+          this.$apply();
+        }
+      });
+    }
   };
 }
 </script>
 
 <style lang='less'>
+.hang {
+
+  overflow: hidden;
+  margin-left: 2%;
+  margin-right: 2%;
+  width: 96%;
+}
+
 .imgblock {
   width: 100%;
   height: 400rpx;
   position: relative;
   border-radius: 20px;
+  clear: both;
+}
+
+
+.zhanshi {
+  float: left;
+  width: 46%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 15px
 
 }
 
-.hang {
-  clear: both;
-  margin-left: 1%;
-  margin-right: 1%;
+.imagezhanshi {
+  width: 90%;
+  height: 300rpx;
+  margin-left: 5%;
+  margin-top: 30rpx;
+  border-radius: 20px; 
 }
 
 .imgblockbgc {
   width: 100%;
   height: 400rpx;
   background-color: #fff;
-  color: blue;
   opacity: 0.3;
   position: absolute;
   border-radius: 20px;
-
-
 }
 
 .imgblockzhengwen {
@@ -58,8 +109,18 @@ export default class ImgZhanshi extends wepy.component {
   width: 100%;
   height: 400rpx;
   border-radius: 20px;
-
-
+  bottom: 10rpx;
+}
+.fileDesc {
+  position:absolute;
+  bottom: 20rpx;
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width: 90%;
 }
 
 </style>

@@ -106,6 +106,7 @@ export default class Wenzi extends wepy.page {
       if (e.detail.userInfo) {
         this.has = false;
         this.userInfo = e.detail.userInfo;
+        console.log('sdfe',e)
         this.$apply();
 
         wepy.setStorageSync('token', 1);

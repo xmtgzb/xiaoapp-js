@@ -144,6 +144,18 @@ export default class Release extends wepy.page {
 
     // 发表图片或者文字
     onClickRight() {
+
+      //   console.log('ujuj',e)
+
+
+      // const uniqueFlag = wx.getStorageSync('uniqueFlag')
+
+
+      // if(!uniqueFlag){
+      //   console.log('ujuj',e)
+
+      // }
+
       let a;
       if (this.checked == true) {
         a = '0';
@@ -168,6 +180,11 @@ export default class Release extends wepy.page {
         });
         return false;
       }
+
+
+
+
+
 
       let that = this;
 

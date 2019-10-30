@@ -4,17 +4,28 @@
       <view class="bgcbox"></view>
       <view class="butbox">
         <ul>
-
-  
-          <li wx:for="{{fenlei}}" class="{{ color == item.index ? 'titbut':'titbut2' }}"  data-index='{{item.index}}' bindtap="qiehuan">{{item.dosc}}
+          <li
+            wx:for="{{fenlei}}"
+            class="{{ color == item.index ? 'titbut':'titbut2' }}"
+            data-index="{{item.index}}"
+            bindtap="qiehuan"
+          >
+            {{item.dosc}}
             <span wx:if="{{item.index != fenlei.length}}" class="titspan">\</span>
           </li>
-
         </ul>
       </view>
-      <view bindtap="append" class="appendbox">
-        <van-icon name="plus" />
+      <view class="appendbox">
+          <button
+            class="dlan"
+            open-type="getUserInfo"
+            bindgetuserinfo="append"
+            plain=true
+          ><van-icon name="plus" /></button>
       </view>
+
+
+
     </view>
     <!-- 插件 -->
 
@@ -27,7 +38,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
-import { setupload, tianqi, setuploadimg, getDwFiles } from '../api/api';
+import { setupload, tianqi, setuploadimg, getDwFiles，getopenid } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -71,17 +82,53 @@ export default class Img extends wepy.page {
         index: 4,
         dosc: '狗粮'
       }
-    ]
+    ],
+    id: ''
   };
 
   methods = {
     // 切换顶部导航
     async qiehuan(e) {
       this.color = e.currentTarget.dataset.index;
+      this.fenlei.forEach(item => {
+        if (this.color == item.index) {
+          this.id = item.dosc;
+        }
+      });
+      this.updateShowPage();
       this.$apply();
     },
 
-    append() {
+    append(e) {
+      
+      let login = e.detail.userInfo;
+
+
+     const uniqueFlag = wx.getStorageSync('uniqueFlag')
+
+
+      // 判断用户是否授权过
+      if(!uniqueFlag){
+       
+        if(login){
+          wepy.setStorageSync('token', 1);
+          wepy.setStorageSync('userinfo', login);
+          wx.login({
+            success: function(res) {
+              console.log(res);
+              let obj = {
+                code: res.code
+              };
+              console.log('sd', obj);
+              getopenid().then(res => {
+                console.log('sd2', res);
+                wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+              });
+            }
+          });
+        }
+      }
+
       this.show = false;
       this.$apply();
 
@@ -116,6 +163,12 @@ export default class Img extends wepy.page {
   //   });
   // }
 
+  //传递数据
+  async updateShowPage() {
+    this.$broadcast('chooseShowPage', this.id); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+    this.$apply();
+  }
+
   // 组件加载
   components = {
     imgZhanshi: imgZhanshi
@@ -126,10 +179,9 @@ export default class Img extends wepy.page {
     console.log('陈安歌');
   }
   async onShow() {
-    let obj = {
-      xiangCe: '盛夏'
-    };
-    getDwFiles(obj).then(res => {});
+    this.id = '盛夏';
+    this.updateShowPage();
+    this.$apply();
   }
 }
 </script>
@@ -147,6 +199,7 @@ page {
   #img {
     height: 100%;
     width: 100%;
+
   }
 
   .bgcbox {
@@ -182,6 +235,15 @@ page {
 
   .awhl {
     margin-top: 10px;
+    width: 100%;
+  }
+  .dlan {
+    padding: 0,0;
+    border: 0;
+    line-height: 30px;
+    // width: 0;
+    // height: 0;
+    // background-color: #fff;
   }
 }
 </style>

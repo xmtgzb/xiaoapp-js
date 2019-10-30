@@ -10,7 +10,11 @@
   height: 30px;
   width: 100%;
 
+  // position: relative;
   position: relative;
+  overflow: hidden;
+  z-index: 999;
+  border: 0.5px
 }
 
 .butbox {
