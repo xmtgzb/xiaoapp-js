@@ -56,6 +56,27 @@ export default class extends wepy.app {
   constructor() {
     super();
     this.use('promisify');
+
+
+      this.use('requestfix');
+      this.intercept('request', {
+      // 发出请求时的回调函数
+      config (p) {
+
+      console.log('config request: ', p);
+      // 必须返回OBJECT参数对象，否则无法发送请求到服务端
+      return p;
+      },
+      success (p) {
+      // 可以在这里对收到的响应数据对象进行加工处理
+      console.log('request success: ', p);
+
+      return p;
+      }
+      });
+
+
+    // Jieshu
   }
 
   config = {

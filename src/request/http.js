@@ -4,7 +4,38 @@
 
 
 const apiUrl = "http://localhost:8080"; //服务器api地址
+
+
+// loading配置，请求次数统计
+function startLoading() {
+  wx.showLoading({
+    title: '请稍候',
+    icon: 'none'
+  })
+}
+function endLoading() {
+  wx.hideLoading();
+}
+// 声明一个对象用于存储请求个数
+var needLoadingRequestCount = 0;
+function showFullScreenLoading() {
+  if (needLoadingRequestCount === 0) {
+    startLoading();
+  }
+  needLoadingRequestCount++;
+};
+function tryHideFullScreenLoading() {
+  if (needLoadingRequestCount <= 0) return;
+  needLoadingRequestCount--;
+  if (needLoadingRequestCount === 0) {
+    endLoading();
+  }
+};
+
+
+
 const http = (params) => {
+  showFullScreenLoading()
   //返回promise 对象
   return new Promise((resolve, reject) => {
     wx.request({
@@ -32,6 +63,7 @@ const http = (params) => {
           // errorToast();
           // console.log(res.data)
         }
+        tryHideFullScreenLoading();
 
         // return res
       },
@@ -39,6 +71,8 @@ const http = (params) => {
         // errorToast();
         // reject(e)
         console.log('失败了')
+        tryHideFullScreenLoading();
+
       }
     })
   })

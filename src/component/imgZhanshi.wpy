@@ -4,13 +4,16 @@
 
 
 
-    <view class="hang">
+    <view  class="hang">
 
-    <view  class="zhanshi" wx:for="{{imgbox}}" >
+    <view  class="zhanshi" wx:key= 'item.id'  wx:for="{{imgbox}}" >
         <view class="imgblock">
           <view class="imgblockbgc"></view>
           <view class="imgblockzhengwen">
             <image
+              data-realPath="{{item.realPath}}"
+              data-fileName="{{item.fileName}}"
+              bindtap= 'bindtap'
               class="imagezhanshi"
               style="width: 90%; height: 300rpx; background-color: #eeeeee;"
               mode="scaleToFill"
@@ -24,6 +27,9 @@
 
 
     </view>
+
+
+    
 
 
 </template>
@@ -46,7 +52,7 @@ export default class ImgZhanshi extends wepy.component {
         if (res.files.length != 0) {
           for (var i = 0; i < res.files.length; i++) {
             res.files[i].sltPath = res.files[i].sltPath + res.files[i].sltName;
-            console.log(res.files[i].sltPath);
+            // console.log(res.files[i].sltPath);
           }
           this.imgbox = res.files;
           this.$apply();
@@ -57,6 +63,17 @@ export default class ImgZhanshi extends wepy.component {
       });
     }
   };
+  methods = {
+    bindtap(e){
+      // e.currentTarget.dataset.index;
+      console.log(e)
+
+    }
+  }
+
+
+
+
 }
 </script>
 

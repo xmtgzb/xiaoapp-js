@@ -1,7 +1,7 @@
 <template>
   <view id="img">
-    <view class="tit">
-      <view class="bgcbox"></view>
+    <view class="tit" >
+      <view class="{{ bgc == true ? 'bgcbox':'bgcbox2' }}" ></view>
       <view class="butbox">
         <ul>
           <li
@@ -38,7 +38,7 @@
 <script>
 import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
-import { setupload, tianqi, setuploadimg, getDwFiles，getopenid } from '../api/api';
+import { setupload, tianqi, setuploadimg, getDwFiles,getopenid } from '../api/api';
 
 export default class Img extends wepy.page {
   config = {
@@ -61,6 +61,7 @@ export default class Img extends wepy.page {
     // }
   };
   data = {
+    bgc:true,
     active: 0,
     canIUse: '',
     color: '1',
@@ -115,13 +116,13 @@ export default class Img extends wepy.page {
           wepy.setStorageSync('userinfo', login);
           wx.login({
             success: function(res) {
-              console.log(res);
+              // console.log(res);
               let obj = {
                 code: res.code
               };
-              console.log('sd', obj);
+              // console.log('sd', obj);
               getopenid().then(res => {
-                console.log('sd2', res);
+                // console.log('sd2', res);
                 wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
               });
             }
@@ -162,6 +163,19 @@ export default class Img extends wepy.page {
   //     duration: 1000
   //   });
   // }
+
+    onPageScroll(a){
+      
+      if(a.scrollTop == 0){
+        this.bgc = true
+        this.$apply();
+
+      }else{
+        this.bgc = false
+        this.$apply();
+
+      }
+    }
 
   //传递数据
   async updateShowPage() {
@@ -207,8 +221,15 @@ page {
     width: 100%;
     background-color: #fff;
     opacity: 0.3;
-  }
+    transition: 1s;
 
+  }
+  .bgcbox2 {
+    height: 30px;
+    width: 100%;
+    background-color: #8f77B5;
+    transition: 1s;
+  }
   .van-tabbar--fixed {
     position: relative;
     height: 30px;
@@ -234,8 +255,10 @@ page {
   }
 
   .awhl {
-    margin-top: 10px;
+    // position:absolute;
+    margin-top: 40px;
     width: 100%;
+    // top: 30px
   }
   .dlan {
     padding: 0,0;
