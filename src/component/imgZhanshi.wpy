@@ -3,30 +3,37 @@
 
 
 
+  <view>
 
     <view  class="hang">
 
-    <view  class="zhanshi" wx:key= 'item.id'  wx:for="{{imgbox}}" >
-        <view class="imgblock">
-          <view class="imgblockbgc"></view>
-          <view class="imgblockzhengwen">
-            <image
-              data-realPath="{{item.realPath}}"
-              data-fileName="{{item.fileName}}"
-              bindtap= 'bindtap'
-              class="imagezhanshi"
-              style="width: 90%; height: 300rpx; background-color: #eeeeee;"
-              mode="scaleToFill"
-              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568891936738&di=4a5e2ed785162c466e76099291634a9c&imgtype=0&src=http%3A%2F%2Fimg1.cache.netease.com%2Fcatchpic%2F7%2F7C%2F7CDCCDFF33DED8E9ED6D9F4E2BFA149D.jpg"
-            />
-          </view>
+      <view  class="zhanshi" wx:key= 'item.id'  wx:for="{{imgbox}}" >
+          <view class="imgblock">
+            <view class="imgblockbgc"></view>
+            <view class="imgblockzhengwen">
+              <image
+                data-realPath="{{item.realPath}}"
+                data-fileDesc="{{item.fileDesc}}"
+                bindtap= 'bindtap'
+                class="imagezhanshi"
+                style="width: 90%; height: 300rpx; background-color: #eeeeee;"
+                mode="scaleToFill"
+                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568891936738&di=4a5e2ed785162c466e76099291634a9c&imgtype=0&src=http%3A%2F%2Fimg1.cache.netease.com%2Fcatchpic%2F7%2F7C%2F7CDCCDFF33DED8E9ED6D9F4E2BFA149D.jpg"
+              />
+            </view>
 
-          <view class="fileDesc">{{item.fileDesc}}</view>
-        </view> 
+            <view  class="fileDesc">{{item.fileDesc}}</view>
+          </view> 
+      </view>
+
+
+
     </view>
+    <view wx:if="{{tishi}}" class="nulltishi">当前没有更多数据</view>
 
 
-    </view>
+  </view>
+
 
 
     
@@ -39,36 +46,110 @@ import wepy from 'wepy';
 import { setupload, tianqi, setuploadimg, getDwFiles } from '../api/api';
 export default class ImgZhanshi extends wepy.component {
   data = {
-    imgbox: [{}]
+    imgbox: [],
+    tishi:false
   };
 
   // 获取父组件传值
   events = {
-    chooseShowPage(newValue) {
+    chooseShowPage(newValue , page) {
       let obj = {
-        xiangCe: newValue
+        xiangCe: newValue,
+        page:page,
+        pageSize:5
+
+        
       };
       getDwFiles(obj).then(res => {
-        if (res.files.length != 0) {
-          for (var i = 0; i < res.files.length; i++) {
-            res.files[i].sltPath = res.files[i].sltPath + res.files[i].sltName;
+        if (res.files.content.length != 0) {
+          for (var i = 0; i < res.files.content.length; i++) {
+           res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+           res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             // console.log(res.files[i].sltPath);
+
+             this.imgbox.push(res.files.content[i])
           }
-          this.imgbox = res.files;
+          // this.imgbox = res.files.content;
           this.$apply();
         } else {
-          this.imgbox = [];
+          // this.imgbox = [];
+          this.tishi = true
           this.$apply();
         }
       });
-    }
+    },
+
+    qiehuan(newValue){
+      let obj = {
+        xiangCe: newValue,
+        page:1,
+        pageSize:5
+      };
+
+      this.imgbox = []
+      this.$apply();
+      getDwFiles(obj).then(res => {
+        if (res.files.content.length != 0) {
+          for (var i = 0; i < res.files.content.length; i++) {
+           res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+           res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
+            // console.log(res.files[i].sltPath);
+
+             this.imgbox.push(res.files.content[i])
+          }
+          // this.imgbox = res.files.content;
+          this.$apply();
+        } else {
+          this.imgbox = [];
+          this.tishi = true
+          this.$apply();
+        }
+      });
+
+
+    },
+
+    onPullDownRefresh(newValue){
+      let obj = {
+          xiangCe: newValue,
+          page:1,
+          pageSize:5
+        };
+
+      getDwFiles(obj).then(res => {
+        if (res.files.content.length != 0 && res.files.content[0].id != this.imgbox[0].id ) {
+          for (var i = 0; i < res.files.content.length; i++) {
+           res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+           res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
+            // console.log(res.files[i].sltPath);
+
+             this.imgbox.unshift(res.files.content[i])
+          }
+          // this.imgbox = res.files.content;
+          this.$apply();
+        } else {
+
+        }
+      });
+
+
+      }
+
   };
   methods = {
     bindtap(e){
-      // e.currentTarget.dataset.index;
-      console.log(e)
+      console.log('df',e)
+      this.$emit('imgrealpath', e.currentTarget.dataset.realpath,e.currentTarget.dataset.filedesc); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+      this.$apply();
+
 
     }
+  }
+
+    //传递单张图片点击预览数据
+  async updateShowPage() {
+    this.$broadcast('chooseShowPage', this.id,this.page); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+    this.$apply();
   }
 
 
@@ -100,7 +181,8 @@ export default class ImgZhanshi extends wepy.component {
   width: 46%;
   margin-left: 2%;
   margin-right: 2%;
-  margin-bottom: 15px
+  margin-bottom: 15px;
+ 
 
 }
 
@@ -138,6 +220,17 @@ export default class ImgZhanshi extends wepy.component {
   text-overflow:ellipsis;
   white-space: nowrap;
   width: 90%;
+  text-align: center
+}
+
+.nulltishi {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 5%;
+
+  
 }
 
 </style>

@@ -11,7 +11,8 @@
   width: 100%;
 
   // position: relative;
-  position: relative;
+  // position: relative;
+  position: fixed;
   overflow: hidden;
   z-index: 999;
   border: 0.5px
@@ -98,11 +99,11 @@ export default class extends wepy.app {
           iconPath: '/assets/img/tupian1.png',
           selectedIconPath: '/assets/img/tupian2.png'
         },
-        {
-          pagePath: 'pages/wenzi',
-          iconPath: '/assets/img/wenzi1.png',
-          selectedIconPath: '/assets/img/wenzi2.png'
-        },
+        // {
+        //   pagePath: 'pages/wenzi',
+        //   iconPath: '/assets/img/wenzi1.png',
+        //   selectedIconPath: '/assets/img/wenzi2.png'
+        // },
         {
           pagePath: 'pages/admin',
           iconPath: '/assets/img/admin1.png',
