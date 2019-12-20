@@ -90,7 +90,7 @@ export default class Release extends wepy.page {
     show: '',
     fixed: true,
     xuaqu: true,
-    columns: ['盛夏', '孤独', '好逑', '狗粮'],
+    columns: ['一', '二', '三', '四'],
     checked: false,
     neirong: '',
     blog: false,
@@ -189,7 +189,7 @@ export default class Release extends wepy.page {
       let that = this;
 
       wx.uploadFile({
-        url: 'http://127.0.0.1:8080/uploadOne',
+        url: 'https://www.hanq0904.com:8081/uploadOne',
         filePath: that.imgbox[0],
         name: 'file',
         header: {
@@ -209,7 +209,7 @@ export default class Release extends wepy.page {
           }
         },
         fail: function(err) {
-          console.log(err);
+          // console.log(err);
         }
       });
     },
@@ -230,7 +230,7 @@ export default class Release extends wepy.page {
     },
 
     xuanquimg() {
-      console.log('asd');
+      // console.log('asd');
 
       // 点击上传图片
       let that = this;

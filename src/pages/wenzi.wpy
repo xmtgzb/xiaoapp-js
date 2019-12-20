@@ -33,7 +33,7 @@ export default class Wenzi extends wepy.page {
     wenziZhanshi: wenziZhanshi
   };
   onLoad() {
-    console.log('onLoad');
+    // console.log('onLoad');
   }
 }
 </script>

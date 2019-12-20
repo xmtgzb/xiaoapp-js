@@ -25,7 +25,7 @@
 }
 .titbut {
   line-height: 30px;
-  color: aqua;
+  color: #3ed0f4;
   // padding-left: 10px
 }
 
@@ -37,7 +37,7 @@
 .titspan {
   padding-left: 10px;
   padding-right: 10px;
-  color: black
+  color: rgba(53,53,53,.6)
 }
 
 .appendbox {
@@ -64,13 +64,13 @@ export default class extends wepy.app {
       // 发出请求时的回调函数
       config (p) {
 
-      console.log('config request: ', p);
+      // console.log('config request: ', p);
       // 必须返回OBJECT参数对象，否则无法发送请求到服务端
       return p;
       },
       success (p) {
       // 可以在这里对收到的响应数据对象进行加工处理
-      console.log('request success: ', p);
+      // console.log('request success: ', p);
 
       return p;
       }
@@ -128,8 +128,8 @@ export default class extends wepy.app {
       "van-cell": "/lib/cell/index",
       "van-cell-group": "/lib/cell-group/index",
       "van-field": "/lib/field/index",
-      "van-toast": "/lib/toast/index"
-
+      "van-toast": "/lib/toast/index",
+      "van-overlay": "/lib//overlay/index"
 
 
     }

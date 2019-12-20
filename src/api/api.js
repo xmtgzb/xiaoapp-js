@@ -5,7 +5,7 @@ import {
 
 var url = {
 
-  openid: '/login',
+  openid: '/login_wx',
   tianqi: 'https://www.tianqiapi.com/api/',
   upload: '/upload',  //单个上传文件
   uploadimg: '/uploadimg',
