@@ -3,7 +3,8 @@
  */
 
 
-const apiUrl = "http://localhost:8080"; //服务器api地址
+// const apiUrl = "http://localhost:8081"; //本地开发api地址
+const apiUrl = "https://www.hanq0904.com:8081"; //生产环境api地址
 
 
 // loading配置，请求次数统计
@@ -70,7 +71,7 @@ const http = (params) => {
       fail: function (e) {
         // errorToast();
         // reject(e)
-        console.log('失败了')
+        // console.log('失败了')
         tryHideFullScreenLoading();
 
       }

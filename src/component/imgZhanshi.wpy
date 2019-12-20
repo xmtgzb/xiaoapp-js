@@ -18,7 +18,7 @@
                 class="imagezhanshi"
                 style="width: 90%; height: 300rpx; background-color: #eeeeee;"
                 mode="scaleToFill"
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568891936738&di=4a5e2ed785162c466e76099291634a9c&imgtype=0&src=http%3A%2F%2Fimg1.cache.netease.com%2Fcatchpic%2F7%2F7C%2F7CDCCDFF33DED8E9ED6D9F4E2BFA149D.jpg"
+                src="{{item.realPath}}"
               />
             </view>
 
@@ -61,7 +61,10 @@ export default class ImgZhanshi extends wepy.component {
         
       };
       getDwFiles(obj).then(res => {
+
         if (res.files.content.length != 0) {
+          this.imgbox = []
+
           for (var i = 0; i < res.files.content.length; i++) {
            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
@@ -118,12 +121,15 @@ export default class ImgZhanshi extends wepy.component {
 
       getDwFiles(obj).then(res => {
         if (res.files.content.length != 0 && res.files.content[0].id != this.imgbox[0].id ) {
+          this.imgbox = []
           for (var i = 0; i < res.files.content.length; i++) {
            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             // console.log(res.files[i].sltPath);
 
-             this.imgbox.unshift(res.files.content[i])
+            //  this.imgbox.unshift(res.files.content[i])
+             this.imgbox.push(res.files.content[i])
+
           }
           // this.imgbox = res.files.content;
           this.$apply();
@@ -138,7 +144,7 @@ export default class ImgZhanshi extends wepy.component {
   };
   methods = {
     bindtap(e){
-      console.log('df',e)
+      // console.log('df',e)
       this.$emit('imgrealpath', e.currentTarget.dataset.realpath,e.currentTarget.dataset.filedesc); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
       this.$apply();
 
@@ -165,6 +171,8 @@ export default class ImgZhanshi extends wepy.component {
   margin-left: 2%;
   margin-right: 2%;
   width: 96%;
+  // padding-left: 2%;
+
 }
 
 .imgblock {
@@ -178,10 +186,10 @@ export default class ImgZhanshi extends wepy.component {
 
 .zhanshi {
   float: left;
-  width: 46%;
-  margin-left: 2%;
-  margin-right: 2%;
-  margin-bottom: 15px;
+  width: 48%;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 5px;
  
 
 }
@@ -191,7 +199,7 @@ export default class ImgZhanshi extends wepy.component {
   height: 300rpx;
   margin-left: 5%;
   margin-top: 30rpx;
-  border-radius: 20px; 
+  // border-radius: 20px; 
 }
 
 .imgblockbgc {
@@ -200,7 +208,7 @@ export default class ImgZhanshi extends wepy.component {
   background-color: #fff;
   opacity: 0.3;
   position: absolute;
-  border-radius: 20px;
+  // border-radius: 20px;
 }
 
 .imgblockzhengwen {

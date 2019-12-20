@@ -14,7 +14,7 @@
                 bindtap="qiehuan"
               >
                 {{item.dosc}}
-                <span wx:if="{{item.index != fenlei.length}}" class="titspan">\</span>
+                <span wx:if="{{item.index != fenlei.length}}" class="titspan">·</span>
               </li>
             </ul>
           </view>
@@ -43,6 +43,8 @@
               style="width: 100%; height: 100%; background-color: #eeeeee;"
               mode="widthFix"
               src="{{realPath}}"
+              bindlongtap='saveImg'
+              data-realPath="{{realPath}}"
             />
         </view>
 
@@ -63,25 +65,16 @@ import wepy from 'wepy';
 import imgZhanshi from '../component/imgZhanshi';
 import { setupload, tianqi, setuploadimg, getDwFiles,getopenid } from '../api/api';
 
+
 export default class Img extends wepy.page {
   config = {
-    navigationBarTitleText: '第一页',
+    navigationBarTitleText: '',
     navigationBarBackgroundColor: '#8f77B5',
     enablePullDownRefresh: true,
     backgroundTextStyle: 'dark',
     backgroundColor: '#786092'
 
-    // 引用vant组件
-    // usingComponents: {
-    //   'van-button': '/lib/button/index',
-    //   'van-row': '/lib/row/index',
-    //   'van-col': '/lib/col/index',
-    //   'van-tabbar': '/lib/tabbar/index',
-    //   'van-tabbar-item': '/lib/tabbar-item/index',
-    //   'van-popup': '/lib/popup/index',
-    //   'van-transition': "/lib/transition/index",
-    //    "van-icon": "/lib/icon/index"
-    // }
+
   };
   data = {
     bgc:true,
@@ -90,38 +83,23 @@ export default class Img extends wepy.page {
     color: '1',
     show: true,
     fenlei: [
-      // {
-      //   index: 1,
-      //   dosc: '盛夏'
-      // },
-      // {
-      //   index: 2,
-      //   dosc: '孤独'
-      // },
-      // {
-      //   index: 3,
-      //   dosc: '好逑'
-      // },
-      // {
-      //   index: 4,
-      //   dosc: '狗粮'
-      // }
+
 
       {
         index: 1,
-        dosc: '1'
+        dosc: '一'
       },
       {
         index: 2,
-        dosc: '2'
+        dosc: '二'
       },
       {
         index: 3,
-        dosc: '3'
+        dosc: '三'
       },
       {
         index: 4,
-        dosc: '4'
+        dosc: '四'
       }
 
     ],
@@ -130,7 +108,13 @@ export default class Img extends wepy.page {
     lastTapTime:0,
     heimuyincang:false,
     fileDesc:'',
-    realPath:''
+    realPath:'',
+    shareObj : {
+　　　　title: "2323",        // 默认是小程序的名称
+　　　　path: 'pages/img',        // 默认是当前页面，必须是以‘/’开头的完整路径
+　　　　
+    }
+    
   };
 
   methods = {
@@ -165,7 +149,7 @@ export default class Img extends wepy.page {
                 code: res.code
               };
               // console.log('sd', obj);
-              getopenid().then(res => {
+              getopenid(obj).then(res => {
                 // console.log('sd2', res);
                 wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
               });
@@ -178,12 +162,6 @@ export default class Img extends wepy.page {
             }
           });
         }
-              // this.show = false;
-              // this.$apply();
-
-              // wx.navigateTo({
-              //   url: 'pages/release'
-              // })
 
 
       }
@@ -210,10 +188,46 @@ export default class Img extends wepy.page {
 
   },
 
+    // 保存图片进入本地
+    saveImg: function (e) {
 
+        let that=this
+        wx.getSetting({
+          success(res) {
+            //未授权 先授权 然后保存
+            if (!res.authSetting['scope.writePhotosAlbum']) {
+              wx.authorize({
+                scope: 'scope.writePhotosAlbum',
+                success(re) {
 
+                  that.saveToBlum(e.currentTarget.dataset.realpath);
+                }
+              })
+            }else{
+            //已授 直接调用保存到相册方法
+            
+              that.saveToBlum(e.currentTarget.dataset.realpath);
+            }
+          }
+        })  
+      },
 
   };
+
+
+  saveToBlum(e){
+      wx.downloadFile({
+        url: e,
+        success: function (res) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success(result) {
+
+            }
+          })
+        }
+      })
+    }
 
   // // 下拉刷新
   onPullDownRefresh() {
@@ -228,16 +242,11 @@ export default class Img extends wepy.page {
 
   // 上拉加载
   onReachBottom() {
-    console.log('上拉加载下一页');
+    // console.log('上拉加载下一页');
     this.page = this.page * 1 + 1
     this.$apply();
     this.updateShowPage()
-    // wepy.showToast({
-    //   title: '上拉加载下一页',
-    //   icon: 'none',
-    //   mask: true,
-    //   duration: 1000
-    // });
+
   }
 
     onPageScroll(a){
@@ -263,9 +272,6 @@ export default class Img extends wepy.page {
   // 获取子组件传值
   events = {
     imgrealpath(realPath , fileDesc) {
-      console.log(realPath)
-      console.log(fileDesc)
-
 
       this.heimuyincang = true
       this.realPath = realPath
@@ -284,11 +290,20 @@ export default class Img extends wepy.page {
   };
 
   // 监听页面加载
-  async onLoad() {
-    console.log('陈安歌');
+  onload(){
+    wepy.showShareMenu({
+      withShareTicket: true
+    })
   }
+
+//在onShareAppMessage中设置分享的界面，**onShareAppMessage和onload同级**
+    onShareAppMessage( options ){
+
+    　　return this.shareObj;
+    }
+
   async onShow() {
-    this.id = '盛夏';
+    this.id = '一';
     this.updateShowPage();
     this.$apply();
   }
@@ -374,7 +389,8 @@ page {
     height: 100%;
     background-color: #000;
     z-index: 999;
-    position: absolute;
+    position: fixed;
+
     top: 0;
 
     display: flex;

@@ -7,12 +7,14 @@ page {
   background-attachment: fixed;
   background-position: center center;
   background-repeat: no-repeat;
-}
+  padding-top: 20px;
+  box-sizing: border-box;
 
 .admin {
-  width: 90%;
-  height: 85%;
-  margin: 30px auto;
+  width: 95%;
+  height: 20%;
+  // margin: 30px auto;
+  margin: 0 auto;
   position: relative;
 }
 .adminbgc {
@@ -21,18 +23,18 @@ page {
   background-color: #fff;
   position: absolute;
   opacity: 0.3;
-  border-radius: 5%;
+  border-radius: 20px;
 }
 .zhuti {
   width: 100%;
   height: 100%;
   position: absolute;
+  
 }
 .name {
   width: 100%;
   height: 100px;
-  background-color: yellow;
-  margin-top: 30px;
+  margin-top: 20px;
   text-align: center;
   overflow: hidden;
 }
@@ -45,44 +47,153 @@ page {
     margin-top: 35px;
   }
 }
+
+.myimg {
+
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 20px;  
+  background-color: rgba(255,255,255,0.3);
+  box-sizing: border-box;
+  padding: 2%;
+  border-radius: 20px;
+  overflow: hidden;
+
+}
+
+.myimgzhanshi {
+  float: left;
+  width: 25%;
+  z-index: 999;
+  padding: 2px;
+  box-sizing: border-box
+
+}
+
+
+  .heimu{
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+
+    display: flex;
+	  justify-content: center;
+	  align-items: center;
+
+  }
+
+  .heimuimg {
+  //  position: absolute;
+  //  top: 50%;
+  //  left: 50%;
+	//  transform: translate(-50%,-50%);
+    width: 100%;
+
+  }
+
+  .heimuwenzi{
+    width: 100%;
+    // height: 15%;
+    min-height: 5%;
+    background-color: #282a2d;
+    position: absolute;
+    bottom: 0;
+    font-size: 12px;
+    padding: 0.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    box-sizing:border-box
+  }
+
+
+
+}
+
+
 </style>
 <template>
-  <view class="admin">
-    <view class="adminbgc"></view>
-    <view class="zhuti">
-      <!-- 头像以及名称 -->
-      <view class="name">
-        <!-- 登录按钮 -->
-        <van-button
-          wx:if="{{has &&canIUse}}"
-          class="shouquanbut"
-          open-type="getUserInfo"
-          bindgetuserinfo="bindGetUserInfo"
-          type="primary"
-        >登录</van-button>
 
-        <!-- 头像 -->
-        <block wx:else>
-          <view style="width: 100%;height: 20px;margin-top: 10px">{{userInfo.nickName}}</view>
-          <image
-            src="{{userInfo.avatarUrl}}"
-            style="width: 50px;height: 50px;border-radius:50%;margin-top: 15px"
-          />
-        </block>
+  <view style='  width: 100%;height: 100%;'>
+    <view class="admin">
+      <view class="adminbgc"></view>
+      <view class="zhuti">
+        <!-- 头像以及名称 -->
+        <view class="name">
+          <!-- 登录按钮 -->
+          <van-button
+            wx:if="{{has &&canIUse}}"
+            class="shouquanbut"
+            open-type="getUserInfo"
+            bindgetuserinfo="bindGetUserInfo"
+            type="primary"
+          >登录</van-button>
+
+          <!-- 头像 -->
+          <block wx:else>
+            <view style="width: 100%;height: 20px;margin-top: 10px">{{userInfo.nickName}}</view>
+            <image
+              src="{{userInfo.avatarUrl}}"
+              style="width: 50px;height: 50px;border-radius:50%;margin-top: 15px"
+            />
+          </block>
+        </view>
       </view>
     </view>
+
+    <view  wx:if="{{!has}}" class="myimg">     
+      <view wx:if="{{youtu}}">
+          <view  class="myimgzhanshi"  wx:key= 'item.id'  wx:for="{{imgbox}}">
+            <image
+              data-realPath="{{item.realPath}}"
+              data-fileDesc="{{item.fileDesc}}"
+              bindtap= 'bindtap'
+              style="width: 100%; height: 300rpx; background-color: #eeeeee;"
+              mode="scaleToFill"
+              src="{{item.realPath}}"
+            />
+          </view>
+        
+      </view>           
+
+
+
+      <block  wx:else>您当前尚未分享过图片</block>
+
+    </view>
+
+      <view class="heimu" wx:if="{{heimuyincang}}" data-time="{{lastTapTime}}"  bindtap="doubleClick" catchtouchmove="true">
+        <view class="heimuimg">
+            <image
+              style="width: 100%; height: 100%; background-color: #eeeeee;"
+              mode="widthFix"
+              src="{{realPath}}"
+              bindlongtap='saveImg'
+              data-realPath="{{realPath}}"
+            />
+        </view>
+
+        <view class="heimuwenzi">{{fileDesc}}</view>
+        
+      </view>
+
   </view>
+
 </template>
 
 <script>
 import wepy from 'wepy';
 import wenziZhanshi from '../component/wenziZhanshi';
 import http from '../request/http';
-import { getopenid, tianqi } from '../api/api';
+
+
+import { getopenid, tianqi,getDwFiles } from '../api/api';
 
 export default class Wenzi extends wepy.page {
   config = {
-    navigationBarTitleText: '第三页',
+    navigationBarTitleText: '',
     usingComponents: {
       'van-button': '/lib/button/index',
       'van-row': '/lib/row/index',
@@ -96,76 +207,230 @@ export default class Wenzi extends wepy.page {
     canIUse: true,
     add: true,
     has: true,
-    userInfo: ''
+    userInfo: '',
+    imgbox:[],
+    page:1,
+    userCode:'',
+    heimuyincang:false,
+    realPath:'',
+    fileDesc:'',
+    lastTapTime:0,
+    youtu:true
+    
+
   };
 
   methods = {
     // 点击事件
     async bindGetUserInfo(e) {
-      console.log(e.detail.userInfo);
+      // console.log(e.detail.userInfo);
       if (e.detail.userInfo) {
         this.has = false;
         this.userInfo = e.detail.userInfo;
-        console.log('sdfe',e)
+        // console.log('sdfe',e)
         this.$apply();
 
         wepy.setStorageSync('token', 1);
         wepy.setStorageSync('userinfo', e.detail.userInfo);
 
         const token = wepy.getStorageSync('token');
-        console.log(token);
-
+        // console.log(token);
+        var that = this
         wx.login({
           success: function(res) {
-            console.log(res);
+            // console.log(res);
             let obj = {
               code: res.code
             };
 
-            console.log('sd', obj);
-
-            getopenid().then(res => {
-              console.log('sd2', res);
+            // console.log('sd', obj);
+            
+            getopenid(obj).then(res => {
+              // console.log('sd2', res);
               wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+              let obj ={
+                userCode:res.user.userCode,
+                page:1,
+                pageSize:10
+              }
+              getDwFiles(obj).then(res => {
+                if (res.files.content.length != 0) {
+                  for (var i = 0; i < res.files.content.length; i++) {
+                    res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+                    res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
+                    that.imgbox.push(res.files.content[i])
+                  }
+                  that.$apply();
+                } else {
+                  that.imgbox = [];
+                  that.youtu = false
+                  that.$apply();
+                }
+              });
             });
           }
         });
       } else {
       }
+    },
+
+    // 点击预览
+    bindtap(e){
+      this.heimuyincang = true
+      this.realPath = e.currentTarget.dataset.realpath
+      this.fileDesc = e.currentTarget.dataset.filedesc
+      this.$apply();
+
+
+    },
+
+    // 点击关闭预览
+    doubleClick(e) {
+
+      var curTime = e.timeStamp
+      var lastTime = e.currentTarget.dataset.time  // 通过e.currentTarget.dataset.time 访问到绑定到该组件的自定义数据
+      if (curTime - lastTime > 0) {
+        if (curTime - lastTime < 300) {//是双击事件
+          this.heimuyincang = false
+          this.$apply();
+        }
+        
+      }
+      this.lastTapTime = curTime
+      this.$apply();
+
+    },
+
+
+
+    saveImg: function (e) {
+        let that=this
+        wx.getSetting({
+          success(res) {
+            //未授权 先授权 然后保存
+            if (!res.authSetting['scope.writePhotosAlbum']) {
+              wx.authorize({
+                scope: 'scope.writePhotosAlbum',
+                success(re) {
+                  that.saveToBlum(e.currentTarget.dataset.realpath);
+                }
+              })
+            }else{
+            //已授 直接调用保存到相册方法
+              that.saveToBlum(e.currentTarget.dataset.realpath);
+            }
+          }
+        })  
+      },
+
+
+
+
+    };
+
+
+  saveToBlum(e){
+      wx.downloadFile({
+        url: e,
+        success: function (res) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success(result) {
+
+            }
+          })
+        }
+      })
     }
-  };
+
+    onReachBottom() {
+      this.page = this.page * 1 + 1
+      this.$apply();
+      let obj ={
+        userCode:this.userCode,
+        page:this.page,
+        pageSize:10
+      }
+      getDwFiles(obj).then(res => {
+        if (res.files.content.length != 0) {
+          for (var i = 0; i < res.files.content.length; i++) {
+            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
+            this.imgbox.push(res.files.content[i])
+          }
+          this.$apply();
+        } else {
+          // this.imgbox = [];
+          // this.$apply();
+        }
+      });
+  }
 
   onShow() {
     const token = wepy.getStorageSync('token');
 
     const userInfo = wepy.getStorageSync('userinfo');
+    this.userInfo = userInfo;
+    this.$apply();
+
 
     if (token == 1) {
-      this.has = false;
       var that = this;
       wx.getUserInfo({
         success: function(res) {
+
           that.userInfo = res.userInfo;
           that.$apply();
         }
+        
       });
 
       wx.login({
         success: function(res) {
-          console.log(res);
           let obj = {
             code: res.code
           };
+          getopenid(obj).then(res => {
 
-          console.log('sd', obj);
-
-          getopenid().then(res => {
-            console.log('sd2', res);
             wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+            that.userCode = res.user.userCode
+            that.has = false;
+
+            that.$apply();
+
+            that.imgbox = [];
+            that.$apply();
+            let obj ={
+              userCode:res.user.userCode,
+              page:1,
+              pageSize:10
+            }
+            getDwFiles(obj).then(res => {
+              if (res.files.content.length != 0) {
+                for (var i = 0; i < res.files.content.length; i++) {
+                  res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
+                  res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
+                  that.imgbox.push(res.files.content[i])
+                }
+                that.$apply();
+              } else {
+                that.youtu = false
+
+                that.imgbox = [];
+                that.$apply();
+              }
+            });
+
           });
         }
       });
     }
+
+
+
+
+
+
   }
 }
 </script>
