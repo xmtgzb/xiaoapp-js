@@ -229,6 +229,21 @@ export default class Img extends wepy.page {
       })
     }
 
+
+  saveToBlum(e){
+      wx.downloadFile({
+        url: e,
+        success: function (res) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success(result) {
+
+            }
+          })
+        }
+      })
+    }
+
   // // 下拉刷新
   onPullDownRefresh() {
  
