@@ -56,23 +56,37 @@ export default class ImgZhanshi extends wepy.component {
       let obj = {
         xiangCe: newValue,
         page:page,
-        pageSize:5
+        pageSize:6
 
         
       };
+
+      this.tishi = false
+      this.$apply();  
+
       getDwFiles(obj).then(res => {
 
         if (res.files.content.length != 0) {
-          this.imgbox = []
+          // this.imgbox = []
+          // this.$apply();
+
 
           for (var i = 0; i < res.files.content.length; i++) {
+
+           res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+           res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
+
            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             // console.log(res.files[i].sltPath);
 
              this.imgbox.push(res.files.content[i])
+
+            //  console.log('fgth',this.imgbox)
           }
           // this.imgbox = res.files.content;
+
           this.$apply();
         } else {
           // this.imgbox = [];
@@ -86,14 +100,18 @@ export default class ImgZhanshi extends wepy.component {
       let obj = {
         xiangCe: newValue,
         page:1,
-        pageSize:5
+        pageSize:6
       };
 
       this.imgbox = []
+      this.tishi = false
       this.$apply();
       getDwFiles(obj).then(res => {
         if (res.files.content.length != 0) {
           for (var i = 0; i < res.files.content.length; i++) {
+           res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+           res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             // console.log(res.files[i].sltPath);
@@ -101,6 +119,7 @@ export default class ImgZhanshi extends wepy.component {
              this.imgbox.push(res.files.content[i])
           }
           // this.imgbox = res.files.content;
+
           this.$apply();
         } else {
           this.imgbox = [];
@@ -116,13 +135,21 @@ export default class ImgZhanshi extends wepy.component {
       let obj = {
           xiangCe: newValue,
           page:1,
-          pageSize:5
+          pageSize:6
         };
+
+      this.tishi = false
+      this.$apply();  
 
       getDwFiles(obj).then(res => {
         if (res.files.content.length != 0 && res.files.content[0].id != this.imgbox[0].id ) {
           this.imgbox = []
+          this.$apply();
+
           for (var i = 0; i < res.files.content.length; i++) {
+           res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+           res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
            res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
            res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             // console.log(res.files[i].sltPath);
@@ -133,8 +160,11 @@ export default class ImgZhanshi extends wepy.component {
           }
           // this.imgbox = res.files.content;
           this.$apply();
-        } else {
 
+
+        } else {
+           this.tishi = true
+           this.$apply();           
         }
       });
 
@@ -171,6 +201,7 @@ export default class ImgZhanshi extends wepy.component {
   margin-left: 2%;
   margin-right: 2%;
   width: 96%;
+  padding-bottom: 20%;
   // padding-left: 2%;
 
 }

@@ -58,6 +58,7 @@ page {
   padding: 2%;
   border-radius: 20px;
   overflow: hidden;
+  padding-bottom: 5%;
 
 }
 
@@ -105,7 +106,9 @@ page {
     padding: 0.5%;
     padding-left: 2%;
     padding-right: 2%;
-    box-sizing:border-box
+    box-sizing:border-box;
+    color: aliceblue
+
   }
 
 
@@ -150,7 +153,7 @@ page {
               data-realPath="{{item.realPath}}"
               data-fileDesc="{{item.fileDesc}}"
               bindtap= 'bindtap'
-              style="width: 100%; height: 300rpx; background-color: #eeeeee;"
+              style="width: 100%; height: 200rpx; background-color: #eeeeee;"
               mode="scaleToFill"
               src="{{item.realPath}}"
             />
@@ -248,14 +251,19 @@ export default class Wenzi extends wepy.page {
             getopenid(obj).then(res => {
               // console.log('sd2', res);
               wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+              wx.setStorageSync('userCode', res.user.userCode);
               let obj ={
                 userCode:res.user.userCode,
                 page:1,
-                pageSize:10
+                pageSize:30
               }
               getDwFiles(obj).then(res => {
                 if (res.files.content.length != 0) {
                   for (var i = 0; i < res.files.content.length; i++) {
+
+                    res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+                    res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
                     res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
                     res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
                     that.imgbox.push(res.files.content[i])
@@ -290,7 +298,7 @@ export default class Wenzi extends wepy.page {
       var curTime = e.timeStamp
       var lastTime = e.currentTarget.dataset.time  // 通过e.currentTarget.dataset.time 访问到绑定到该组件的自定义数据
       if (curTime - lastTime > 0) {
-        if (curTime - lastTime < 300) {//是双击事件
+        if (curTime - lastTime < 600) {//是双击事件
           this.heimuyincang = false
           this.$apply();
         }
@@ -344,16 +352,21 @@ export default class Wenzi extends wepy.page {
     }
 
     onReachBottom() {
+      console.log('dsfh')
       this.page = this.page * 1 + 1
       this.$apply();
       let obj ={
         userCode:this.userCode,
         page:this.page,
-        pageSize:10
+        pageSize:30
       }
       getDwFiles(obj).then(res => {
         if (res.files.content.length != 0) {
           for (var i = 0; i < res.files.content.length; i++) {
+
+            res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+            res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
             res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
             res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
             this.imgbox.push(res.files.content[i])
@@ -366,11 +379,23 @@ export default class Wenzi extends wepy.page {
       });
   }
 
+  onload(){
+    const token = wepy.getStorageSync('token');
+    const userInfo = wepy.getStorageSync('userinfo');
+    this.userInfo = userInfo;
+    this.heimuyincang = false
+
+    this.$apply();
+  }
+
+
   onShow() {
     const token = wepy.getStorageSync('token');
 
     const userInfo = wepy.getStorageSync('userinfo');
     this.userInfo = userInfo;
+    this.heimuyincang = false
+
     this.$apply();
 
 
@@ -393,6 +418,8 @@ export default class Wenzi extends wepy.page {
           getopenid(obj).then(res => {
 
             wx.setStorageSync('uniqueFlag', res.user.uniqueFlag);
+            wx.setStorageSync('userCode', res.user.userCode);
+
             that.userCode = res.user.userCode
             that.has = false;
 
@@ -403,11 +430,15 @@ export default class Wenzi extends wepy.page {
             let obj ={
               userCode:res.user.userCode,
               page:1,
-              pageSize:10
+              pageSize:30
             }
             getDwFiles(obj).then(res => {
               if (res.files.content.length != 0) {
                 for (var i = 0; i < res.files.content.length; i++) {
+
+                  res.files.content[i].sltPath = res.files.content[i].sltPath.replace('/www/wwwroot/','https://www.')
+                  res.files.content[i].realPath = res.files.content[i].realPath.replace('/www/wwwroot/','https://www.')
+
                   res.files.content[i].sltPath = res.files.content[i].sltPath + res.files.content[i].sltName;
                   res.files.content[i].realPath = res.files.content[i].realPath + res.files.content[i].fileName;
                   that.imgbox.push(res.files.content[i])

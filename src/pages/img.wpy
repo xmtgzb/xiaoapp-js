@@ -110,7 +110,7 @@ export default class Img extends wepy.page {
     fileDesc:'',
     realPath:'',
     shareObj : {
-　　　　title: "2323",        // 默认是小程序的名称
+　　　　title: "",        // 默认是小程序的名称
 　　　　path: 'pages/img',        // 默认是当前页面，必须是以‘/’开头的完整路径
 　　　　
     }
@@ -121,6 +121,7 @@ export default class Img extends wepy.page {
     // 切换顶部导航
     async qiehuan(e) {
       this.color = e.currentTarget.dataset.index;
+      console.log(e.currentTarget.dataset.index)
       this.fenlei.forEach(item => {
         if (this.color == item.index) {
           this.id = item.dosc;
@@ -134,7 +135,6 @@ export default class Img extends wepy.page {
       
     let login = e.detail.userInfo;
      const uniqueFlag = wx.getStorageSync('uniqueFlag')
-
 
       // 判断用户是否授权过
       if(!uniqueFlag){
@@ -177,7 +177,8 @@ export default class Img extends wepy.page {
     var curTime = e.timeStamp
     var lastTime = e.currentTarget.dataset.time  // 通过e.currentTarget.dataset.time 访问到绑定到该组件的自定义数据
     if (curTime - lastTime > 0) {
-      if (curTime - lastTime < 300) {//是双击事件
+      if (curTime - lastTime < 600) {//是双击事件
+        console.log('fduh')
         this.heimuyincang = false
         this.$apply();
       }
@@ -312,14 +313,16 @@ export default class Img extends wepy.page {
   }
 
 //在onShareAppMessage中设置分享的界面，**onShareAppMessage和onload同级**
-    onShareAppMessage( options ){
-
-    　　return this.shareObj;
-    }
+  onShareAppMessage( options ){
+  　　return this.shareObj;
+  }
 
   async onShow() {
     this.id = '一';
+    this.color  = '1'
+    this.page = 1
     this.updateShowPage();
+    this.heimuyincang = false
     this.$apply();
   }
 }
@@ -434,7 +437,9 @@ page {
     padding: 0.5%;
     padding-left: 2%;
     padding-right: 2%;
-    box-sizing:border-box
+    box-sizing:border-box;
+    color: aliceblue
+    
   }
 
 
