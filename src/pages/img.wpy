@@ -121,7 +121,7 @@ export default class Img extends wepy.page {
     // 切换顶部导航
     async qiehuan(e) {
       this.color = e.currentTarget.dataset.index;
-      console.log(e.currentTarget.dataset.index)
+      // console.log(e.currentTarget.dataset.index)
       this.fenlei.forEach(item => {
         if (this.color == item.index) {
           this.id = item.dosc;
@@ -177,8 +177,8 @@ export default class Img extends wepy.page {
     var curTime = e.timeStamp
     var lastTime = e.currentTarget.dataset.time  // 通过e.currentTarget.dataset.time 访问到绑定到该组件的自定义数据
     if (curTime - lastTime > 0) {
-      if (curTime - lastTime < 600) {//是双击事件
-        console.log('fduh')
+      if (curTime - lastTime < 400) {//是双击事件
+        // console.log('fduh')
         this.heimuyincang = false
         this.$apply();
       }
@@ -280,7 +280,7 @@ export default class Img extends wepy.page {
 
   //传递数据
   async updateShowPage() {
-    this.$broadcast('chooseShowPage', this.id,this.page); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+    this.$broadcast('chooseShowPage', this.id,this.page,); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
     this.$apply();
   }
 
@@ -321,7 +321,8 @@ export default class Img extends wepy.page {
     this.id = '一';
     this.color  = '1'
     this.page = 1
-    this.updateShowPage();
+    this.$broadcast('first', this.id,this.page,); //必须是异步执行广播事件，原理和小程序页面刷新和canvas重绘的先后机制有关，否则图表不显示
+    this.$apply();
     this.heimuyincang = false
     this.$apply();
   }

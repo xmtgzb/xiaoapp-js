@@ -54,14 +54,14 @@
     <!-- 发表必填项 -->
     <view class="must">
       <!-- 仅对自己可见 -->
-      <van-row class="one">
+      <!-- <van-row class="one">
         <van-switch-cell
           active-color="#07c160"
           title="是否仅对自己可见"
           checked="{{ checked }}"
           bind:change="onlyyou"
         />
-      </van-row>
+      </van-row> -->
       <!-- 发布类别 -->
       <van-row class="one">
         <van-cell title="选择类别" bind:click="chose" is-link value="{{neirong}}" />
@@ -227,7 +227,7 @@ export default class Release extends wepy.page {
               }
             },
             fail: function(err) {
-              console.log(err);
+              // console.log(err);
             }
           });
       }

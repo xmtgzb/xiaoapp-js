@@ -255,7 +255,7 @@ export default class Wenzi extends wepy.page {
               let obj ={
                 userCode:res.user.userCode,
                 page:1,
-                pageSize:30
+                pageSize:20
               }
               getDwFiles(obj).then(res => {
                 if (res.files.content.length != 0) {
@@ -298,7 +298,7 @@ export default class Wenzi extends wepy.page {
       var curTime = e.timeStamp
       var lastTime = e.currentTarget.dataset.time  // 通过e.currentTarget.dataset.time 访问到绑定到该组件的自定义数据
       if (curTime - lastTime > 0) {
-        if (curTime - lastTime < 600) {//是双击事件
+        if (curTime - lastTime < 400) {//是双击事件
           this.heimuyincang = false
           this.$apply();
         }
@@ -352,13 +352,13 @@ export default class Wenzi extends wepy.page {
     }
 
     onReachBottom() {
-      console.log('dsfh')
+      // console.log('dsfh')
       this.page = this.page * 1 + 1
       this.$apply();
       let obj ={
         userCode:this.userCode,
         page:this.page,
-        pageSize:30
+        pageSize:20
       }
       getDwFiles(obj).then(res => {
         if (res.files.content.length != 0) {
@@ -395,7 +395,7 @@ export default class Wenzi extends wepy.page {
     const userInfo = wepy.getStorageSync('userinfo');
     this.userInfo = userInfo;
     this.heimuyincang = false
-
+    this.page = 1
     this.$apply();
 
 
@@ -430,7 +430,7 @@ export default class Wenzi extends wepy.page {
             let obj ={
               userCode:res.user.userCode,
               page:1,
-              pageSize:30
+              pageSize:20
             }
             getDwFiles(obj).then(res => {
               if (res.files.content.length != 0) {
